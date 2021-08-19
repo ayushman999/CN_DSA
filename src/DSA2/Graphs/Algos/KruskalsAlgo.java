@@ -2,6 +2,7 @@ package DSA2.Graphs.Algos;
 
 import DSA2.PriorityQueue.PQMin;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class KruskalsAlgo {
@@ -10,17 +11,25 @@ public class KruskalsAlgo {
         int v=sc.nextInt();
         int e=sc.nextInt();
         PriorityQueue<Triplets> pq=new PriorityQueue<>(new compareTriplets());
-
+        int[][] adj=new int[v][v];
+        int[] weight=new int[v];
+        int[] parent=new int[v];
+        Arrays.fill(weight,Integer.MAX_VALUE);
+        Arrays.fill(parent,-1);
+        weight[0]=0;
         for(int i=0;i<e;i++)
         {
             int fv=sc.nextInt();
             int lv=sc.nextInt();
             int wv=sc.nextInt();
+            adj[fv][lv]=wv;
+            adj[lv][fv]=wv;
             pq.add(new Triplets(fv, lv, wv));
         }
 /*
         int[][] result=check(v,pq);
 */
+        prims(adj,weight,parent);
         int[][] betterResult=checkCN(v,pq);
 
     }
@@ -47,6 +56,51 @@ public class KruskalsAlgo {
         }
         return arr;
     }
+
+    private static void prims(int[][] adj,int[] weight,int[] parent)
+    {
+        //prims algorithm
+        boolean[] visited=new boolean[adj.length];
+        for(int i=0;i<adj.length;i++)
+        {
+            int min=getMin(weight,visited);
+            visited[min]=true;
+            for(int j=0;j<adj.length;j++)
+            {
+                if(adj[min][j]!=0 && !visited[j])
+                {
+                    int w=adj[min][j];
+                    if(weight[j]>w)
+                    {
+                        weight[j]=w;
+                        parent[j]=min;
+                    }
+                }
+            }
+        }
+    }
+
+    private static int getMin(int[] weight, boolean[] visited) {
+        int min=-1;
+        for(int i=0;i<weight.length;i++)
+        {
+            if(min==-1 && !visited[i])
+            {
+                min=i;
+                continue;
+            }
+            else if(min==-1 && visited[i])
+            {
+                continue;
+            }
+            if(weight[i]<weight[min] && !visited[i])
+            {
+                min=i;
+            }
+        }
+        return min;
+    }
+
     private static boolean cyclic(Triplets triplets, int[] parent) {
         int v1=triplets.sv;
         int v2=triplets.ev;
