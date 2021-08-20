@@ -1,16 +1,14 @@
 package DSA2.Graphs.Algos;
 
-import DSA2.PriorityQueue.PQMin;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
-public class KruskalsAlgo {
+public class MSTAlgos {
     public static void main(String[] args) {
         Scanner sc=new Scanner(System.in);
         int v=sc.nextInt();
         int e=sc.nextInt();
         PriorityQueue<Triplets> pq=new PriorityQueue<>(new compareTriplets());
+        PriorityQueue<Pair> w=new PriorityQueue<>(new comparePair());
         int[][] adj=new int[v][v];
         int[] weight=new int[v];
         int[] parent=new int[v];
@@ -24,12 +22,19 @@ public class KruskalsAlgo {
             int wv=sc.nextInt();
             adj[fv][lv]=wv;
             adj[lv][fv]=wv;
+            if(i==0)
+            {
+                w.add(new Pair(i,0));
+            }
+            else {
+                w.add(new Pair(i, Integer.MAX_VALUE));
+            }
             pq.add(new Triplets(fv, lv, wv));
         }
 /*
         int[][] result=check(v,pq);
 */
-        prims(adj,weight,parent);
+        prims(adj,weight,parent,w);
         int[][] betterResult=checkCN(v,pq);
 
     }
@@ -57,7 +62,7 @@ public class KruskalsAlgo {
         return arr;
     }
 
-    private static void prims(int[][] adj,int[] weight,int[] parent)
+    private static void prims(int[][] adj,int[] weight,int[] parent,PriorityQueue<Pair> w1)
     {
         //prims algorithm
         boolean[] visited=new boolean[adj.length];
@@ -192,11 +197,11 @@ public class KruskalsAlgo {
         return t;
     }
 }
-class compareTriplets implements Comparator<KruskalsAlgo.Triplets>
+class compareTriplets implements Comparator<MSTAlgos.Triplets>
 {
 
     @Override
-    public int compare(KruskalsAlgo.Triplets o1, KruskalsAlgo.Triplets o2) {
+    public int compare(MSTAlgos.Triplets o1, MSTAlgos.Triplets o2) {
         if(o1.wv>=o2.wv)
         {
             return 1;
@@ -205,5 +210,27 @@ class compareTriplets implements Comparator<KruskalsAlgo.Triplets>
         {
             return -1;
         }
+    }
+}
+class comparePair implements Comparator<Pair>{
+
+    @Override
+    public int compare(Pair o1, Pair o2) {
+        if(o1.weight>=o2.weight)
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+}
+class Pair{
+    int i,weight;
+    Pair(int i,int weight)
+    {
+        this.i=i;
+        this.weight=weight;
     }
 }
