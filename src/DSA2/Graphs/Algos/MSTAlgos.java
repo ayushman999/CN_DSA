@@ -233,4 +233,8 @@ class Pair{
         this.i=i;
         this.weight=weight;
     }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
 }

@@ -1,43 +1,55 @@
 package DSA2.Graphs.Algos;
 
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 public class DijkstraAlgo {
     public static void main(String[] args) {
         Scanner sc=new Scanner(System.in);
         int v=sc.nextInt();
         int e=sc.nextInt();
-        int[][] adj=new int[v][v];
+
+        ArrayList<ArrayList<ArrayList<Integer>>> adjacent=new ArrayList<>();
+        for(int i=0;i<v;i++)
+        {
+            adjacent.add(new ArrayList<>());
+        }
         for(int i=0;i<e;i++)
         {
             int fv=sc.nextInt();
             int lv=sc.nextInt();
             int wv=sc.nextInt();
-            adj[fv][lv]=wv;
-            adj[lv][fv]=wv;
+            ArrayList<Integer> a=new ArrayList<>();
+            a.add(fv);
+            a.add(wv);
+            ArrayList<Integer> b=new ArrayList<>();
+            b.add(lv);
+            b.add(wv);
+            adjacent.get(fv).add(b);
+            adjacent.get(lv).add(a);
         }
-        check(adj);
+
+        check(adjacent);
     }
 
-    private static void check(int[][] adj) {
-        boolean[] visited=new boolean[adj.length];
-        int[] distance=new int[adj.length];
+    private static void check(ArrayList<ArrayList<ArrayList<Integer>>> adjacent) {
+        boolean[] visited=new boolean[adjacent.size()];
+        int[] distance=new int[adjacent.size()];
         Arrays.fill(distance,Integer.MAX_VALUE);
         distance[0]=0;
-        for(int i=0;i< adj.length;i++)
+        for(int i=0;i< adjacent.size();i++)
         {
             int min=getMin(visited,distance);
             visited[min]=true;
-            for(int j=0;j<adj.length;j++)
+
+            ArrayList<ArrayList<Integer>> arr= adjacent.get(min);
+            for(ArrayList<Integer> list:arr)
             {
-                if(adj[min][j]!=0 && !visited[j])
+                if(!visited[list.get(0)])
                 {
-                    int d=distance[min]+adj[min][j];
-                    if(distance[j]>d)
+                    int d=distance[min]+list.get(1);
+                    if(distance[list.get(0)]>d)
                     {
-                        distance[j]=d;
+                        distance[list.get(0)]=d;
                     }
                 }
             }
