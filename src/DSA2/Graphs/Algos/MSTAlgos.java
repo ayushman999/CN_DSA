@@ -34,9 +34,9 @@ public class MSTAlgos {
 /*
         int[][] result=check(v,pq);
 */
-        prims(adj,weight,parent,w);
-        int[][] betterResult=checkCN(v,pq);
+        System.out.println(prims(adj,weight,parent,w));
 
+        int[][] betterResult=checkCN(v,pq);
     }
 
     private static int[][] checkCN(int v, PriorityQueue<Triplets> pq) {
@@ -62,7 +62,7 @@ public class MSTAlgos {
         return arr;
     }
 
-    private static void prims(int[][] adj,int[] weight,int[] parent,PriorityQueue<Pair> w1)
+    private static int prims(int[][] adj,int[] weight,int[] parent,PriorityQueue<Pair> w1)
     {
         //prims algorithm
         boolean[] visited=new boolean[adj.length];
@@ -83,6 +83,12 @@ public class MSTAlgos {
                 }
             }
         }
+        int count=0;
+        for(int i:weight)
+        {
+            count+=i;
+        }
+        return count;
     }
 
     private static int getMin(int[] weight, boolean[] visited) {
