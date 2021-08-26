@@ -21,9 +21,9 @@ public class NegativeWeightCycle {
     }
 
     private static int isNegativeWeightCycle(int n, int[][] edges) {
-        boolean[] visited=new boolean[n];
-        int i= check(visited,edges,0,0,-1);
-        return i<0?1:0;
+         boolean[] visited=new boolean[n];
+         int i=checkEdges(visited,edges,)
+
     }
     public static int check(boolean[] visited, int[][] edges, int sum, int index,int parent)
     {
