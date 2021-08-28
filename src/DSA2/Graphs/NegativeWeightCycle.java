@@ -16,15 +16,10 @@ public class NegativeWeightCycle {
             int wv=sc.nextInt();
             adj[fv][lv]=wv;
         }
-        System.out.println(isNegativeWeightCycle(v,adj));
 
     }
 
-    private static int isNegativeWeightCycle(int n, int[][] edges) {
-         boolean[] visited=new boolean[n];
-         int i=checkEdges(visited,edges,)
 
-    }
     public static int check(boolean[] visited, int[][] edges, int sum, int index,int parent)
     {
         visited[index]=true;
